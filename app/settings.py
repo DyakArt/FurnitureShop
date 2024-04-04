@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = C:\Users\dyako\PycharmProjects\Sites\FurnitureShop\app_main
+# базовый путь к проекту (в котором лежит manage.py)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -133,8 +134,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# какой префикс будет добавлен, при получении статических файлов (css, js и тд)
+# какой префикс будет добавлен, при получении статических файлов (css, js и тд), в браузере будет отображаться
+# следующий примерный путь: /static/deps/css/style.css
 STATIC_URL = 'static/'
+
+# указываем дополнительные места, где django нужно искать статику
+# бросаем папку static в корень проекта, так как будем использовать одинаковые зависимости для всех приложений
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -15,15 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from main import views
+from django.urls import include, path
 
 # первый аргумент в path - это адрес конкретной страницы,
 # второй аргумент - регистрация представления, которое будет закреплено за этим адресом
+# третий аргумент - для тегов в html-документах, чтобы можно было обращаться к этим ссылкам по имени
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # путь для главной страницы
-    path('', views.index, name='index'),
-    path('about/', views.about, name='about'),
+    # подключаем адреса для приложения main (главная страница, о нас)
+    # namespace - имя приложения, к которому относятся url-адреса, когда мы обращаемся к ним в html-шаблонах templates
+    path('', include('main.urls', namespace='main'))
 ]
