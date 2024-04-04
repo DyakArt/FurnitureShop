@@ -24,5 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # подключаем адреса для приложения main (главная страница, о нас)
     # namespace - имя приложения, к которому относятся url-адреса, когда мы обращаемся к ним в html-шаблонах templates
-    path('', include('main.urls', namespace='main'))
+    path('', include('main.urls', namespace='main')),
+    # подключаем адреса для приложения goods (каталог товаров, товары)
+    path('catalog/', include('goods.urls', namespace='catalog'))
 ]
