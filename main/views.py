@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+# импортируем модель Categories из приложения товаров
+from goods.models import Categories
+
 # в этом файле все функции называются либо представления, либо контроллеры
 # после создания, нужно закрепить её за каким-нибудь url-адресом
 
@@ -13,9 +16,13 @@ from django.http import HttpResponse
 
 
 def index(request) -> HttpResponse:
+    # получаем все категории товаров
+    categories = Categories.objects.all()
+
     context = {
         'title': 'Home - Главная',
-        'content': 'Магазин мебели HOME'
+        'content': 'Магазин мебели HOME',
+        'categories': categories
     }
     return render(request, 'main/index.html', context)
 

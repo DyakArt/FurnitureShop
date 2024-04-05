@@ -17,7 +17,6 @@ from pathlib import Path
 # базовый путь к проекту (в котором лежит manage.py)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -32,7 +31,6 @@ DEBUG = True
 # * - указывает, что приложение может работать на любых хостах
 # или можно указать свои, например, mysite.com
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 # Здесь определяем наши приложения (отдельные логические блоки, которые нам необходимы для приложения)
@@ -85,7 +83,6 @@ TEMPLATES = [
 # какой протокол работы используем (wsgi or asgi)
 WSGI_APPLICATION = 'app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -96,7 +93,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -117,13 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 # на каком языке работает приложение django, на каком языке будет отображаться admin-панель,
 # оповещения для пользователей и тд
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 # в какой временной полосе работает приложение
 TIME_ZONE = 'UTC'
@@ -131,7 +126,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -149,5 +143,5 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-# автоинкремент (+1) id для каждой новой записи в БД
+# автоинкремент (+1) id для каждой новой записи в БД в каждом приложении
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
