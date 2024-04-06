@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-# импортируем переменную debug из setting.py
-from app.settings import DEBUG
+# импортируем setting.py из приложения app
+from django.conf import settings
+
+# импортируем функцию static для медиа-файлов
+from django.conf.urls.static import static
 
 # первый аргумент в path - это адрес конкретной страницы,
 # второй аргумент - регистрация представления, которое будет закреплено за этим адресом
@@ -33,7 +36,8 @@ urlpatterns = [
 ]
 
 # при отладке (debug = true), будем подключать дополнительный инструмент для более детальной отладки
-if DEBUG:
+if settings.DEBUG:
     urlpatterns += [
         path("__debug__/", include("debug_toolbar.urls")),
     ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -146,6 +146,12 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+# какой префикс будет добавлен, при получении медиа-файлов
+MEDIA_URL = 'media/'
+
+# где django будет искать медиа-файлы (в папке media)
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # где будет работать дополнительный инструмент для отладки
 INTERNAL_IPS = [
     # ...

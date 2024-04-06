@@ -32,7 +32,7 @@ class Products(models.Model):
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
     # TextField - тип для больших текстов, хорошо подойдёт для описания товара
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
-    # upload_to - где хранить изображение (ссылка)
+    # upload_to - где хранить изображение (папка, которая потом создается в папке media)
     image = models.ImageField(upload_to='goods_images', blank=True, null=True, verbose_name='Изображение')
     # DecimalField - тип для чисел с плавающей точкой
     # default - дефолтное значение (допустим, когда товар закончился)
@@ -61,3 +61,15 @@ class Products(models.Model):
 
     def __str__(self):
         return f'{self.name} Количество - {self.quantity}'
+
+    # метод для отображения id товара (:05 - это добавить нулей вначале, чтобы было 5 символов)
+    def display_id(self):
+        return f"{self.id:05}"
+
+    # метод для определения финальной стоимости товара
+    def sell_price(self):
+        # если скидка != 0
+        if self.discount:
+            return round(self.price - self.price*self.discount/100, 2)
+        # иначе, если скидки нет
+        return self.price
