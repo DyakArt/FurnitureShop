@@ -33,7 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-# Здесь определяем наши приложения (отдельные логические блоки, которые нам необходимы для приложения)
+# Здесь определяем наши приложения (отдельные логические блоки, которые нам необходимы для проекта)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # приложение для дополнительной отладки django
+    'debug_toolbar',
 
     'main',
     # товары
@@ -57,6 +60,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # добавляем дополнительный инструмент для отладки
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 # файл urls.py, где указаны все url-адреса нашего приложения
@@ -138,6 +144,13 @@ STATIC_URL = 'static/'
 # бросаем папку static в корень проекта, так как будем использовать одинаковые зависимости для всех приложений
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
+]
+
+# где будет работать дополнительный инструмент для отладки
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
 ]
 
 # Default primary key field type
