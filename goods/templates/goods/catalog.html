@@ -59,7 +59,8 @@
                         <img src="{% static 'deps/images/Not found image.png' %}" class="card-img-top" alt="...">
                     {% endif %}
                     <div class="card-body">
-                        <a href="../goods/product.html">
+{#                        Дополнительный параметр для тега url - product.slug, чтобы переход был на нужный товар#}
+                        <a href="{% url 'catalog:product' product.slug %}">
                             <p class="card-title">{{ product.name }}</p>
                         </a>
                         <p class="card-text text-truncate">{{ product.description }}</p>

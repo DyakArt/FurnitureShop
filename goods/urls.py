@@ -12,5 +12,6 @@ urlpatterns = [
     # путь для страницы с каталогом товаров
     path('', views.catalog, name='index'),
     # путь для страницы конкректного товара
-    path('product/', views.product, name='product'),
+    # <slug:product_slug>/ - конвертер url-адреса для каждого товара, product_slug - параметр в функции product
+    path('product/<slug:product_slug>/', views.product, name='product'),
 ]
