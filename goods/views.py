@@ -1,10 +1,12 @@
 from django.shortcuts import render
+# импортируем класс для пагинации страниц
+from django.core.paginator import Paginator
 # импортируем модель товаров
 from goods.models import Products
 
 
 # отображение каталога
-def catalog(request, category_slug):
+def catalog(request, category_slug, page=1):
     # делаем проверку на значение slug
     if category_slug == 'all':
         # получаем все товары из таблицы product
@@ -12,13 +14,23 @@ def catalog(request, category_slug):
     else:
         # получаем товары только нужной категории, category - поле внешнего ключа на таблицу Categories
         goods = Products.objects.filter(category__slug=category_slug)
-        # если после запроса не нашлось товаров в данной категории
-        if not goods.exists():
-            goods = False
+    # если после запроса не нашлось товаров в данной категории
+    if not goods.exists():
+        current_page = False
+    else:
+        # создаем переменную paginator
+        # goods - имя queryset (имя переменной, в которой происходит запрос объектов)
+        # par_page - сколько объектов выводить на каждой странице (3 товара)
+        paginator = Paginator(goods, 3)
+
+        # переменная для страницы, которая будет отображаться пользователю
+        # в метод page передаем нужную страницу для отображения (1 - первая страница)
+        current_page = paginator.page(page)
 
     context = {
         'title': 'Home - Каталог',
-        'goods': goods
+        'goods': current_page,
+        'slug_url': category_slug
     }
     return render(request, 'goods/catalog.html', context)
 

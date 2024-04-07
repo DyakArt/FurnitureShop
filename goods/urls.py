@@ -12,6 +12,8 @@ urlpatterns = [
     # путь для страницы с каталогом товаров
     # <slug:category_slug>/ - конвертер url-адреса для каждой категории, category_slug - параметр в функции catalog
     path('<slug:category_slug>/', views.catalog, name='index'),
+    # если будет добавлена цифра после slug у категории, то будет отображаться другая страница
+    path('<slug:category_slug>/<int:page>/', views.catalog, name='index'),
     # путь для страницы конкректного товара
     # <slug:product_slug>/ - конвертер url-адреса для каждого товара, product_slug - параметр в функции product
     path('product/<slug:product_slug>/', views.product, name='product'),

@@ -58,6 +58,8 @@ class Products(models.Model):
         verbose_name = 'Продукт'
         # в множественном числе
         verbose_name_plural = 'Продукты'
+        # указываем как сортируются товары на странице для пагинации (по id)
+        ordering = ("id",)
 
     def __str__(self):
         return f'{self.name} Количество - {self.quantity}'

@@ -68,7 +68,7 @@
                             <a href="{% url 'catalog:product' product.slug %}">
                                 <p class="card-title">{{ product.name }}</p>
                             </a>
-                            <p class="card-text text-truncate">{{ product.description }}</p>
+                            <p class="card-text text-truncate">{{ product.description|truncatechars:35 }}</p>
     {#                        вызываем метод display_id для отображения id товара#}
                             <p class="product_id">id: {{ product.display_id }}</p>
                             <div class="d-flex justify-content-between">
@@ -94,14 +94,34 @@
     <!-- Пагинация -->
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center my-4 custom-shadow d-flex">
-            <li class="page-item disabled">
-                <a class="page-link">Previous</a>
+{#            Если нет предыдущих страниц, то включаем класс "disabled"#}
+            <li class="page-item {% if not goods.has_previous %}disabled{% endif %}">
+{#                Формируем ссылку на предыдущую страницу, если она есть#}
+                <a class="page-link" href="{% if goods.has_previous %}
+                    {% url 'catalog:index' slug_url goods.previous_page_number %}
+                    {% else %}
+                        #
+                {% endif %} ">Назад</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+{#            Перебираем все доступные страницы в этой категории#}
+            {% for page in goods.paginator.page_range %}
+{#                Применяем фильтр (добавляем 2), отображаем максимум по две страницы справа или слева#}
+                {% if page >= goods.number|add:-2 and page <= goods.number|add:2 %}
+                    {#            Если это текущая страница, то включаем класс "active"#}
+                    <li class="page-item {% if goods.number == page %} active {% endif %}">
+                        <a class="page-link" href="{% url 'catalog:index' slug_url page %}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+{#            Если нет следующих страниц, то включаем класс "disabled"#}
+            <li class="page-item {% if not goods.has_next %}disabled{% endif %}">
+{#                Формируем ссылку на предыдущую страницу, если она есть#}
+                <a class="page-link" href="{% if goods.has_next %}
+                    {% url 'catalog:index' slug_url goods.next_page_number %}
+                    {% else %}
+                        #
+                {% endif %} ">Следующая</a>
             </li>
         </ul>
     </nav>
