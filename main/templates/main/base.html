@@ -97,7 +97,8 @@
                     {% tag_categories as categories %}
                     {#                       Перебираем все категории товаров#}
                     {% for category in categories %}
-                        <li><a class="dropdown-item text-white" href="{% url 'catalog:index' %}">{{ category.name }}</a>
+{#                        Дополнительный параметр для функции url - category #}
+                        <li><a class="dropdown-item text-white" href="{% url 'catalog:index' category.slug %}">{{ category.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>

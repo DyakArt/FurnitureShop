@@ -48,42 +48,48 @@
         </div>
 
         {#Перебираем продукты в каталоге#}
-        {% for product in goods %}
-            <!-- Карта товара -->
-            <div class="col-lg-4 col-md-6 p-4">
-                <div class="card border-primary rounded custom-shadow">
-{#                    Проверка, если нет изображения для какого-то товара#}
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else  %}
-                        <img src="{% static 'deps/images/Not found image.png' %}" class="card-img-top" alt="...">
-                    {% endif %}
-                    <div class="card-body">
-{#                        Дополнительный параметр для тега url - product.slug, чтобы переход был на нужный товар#}
-                        <a href="{% url 'catalog:product' product.slug %}">
-                            <p class="card-title">{{ product.name }}</p>
-                        </a>
-                        <p class="card-text text-truncate">{{ product.description }}</p>
-{#                        вызываем метод display_id для отображения id товара#}
-                        <p class="product_id">id: {{ product.display_id }}</p>
-                        <div class="d-flex justify-content-between">
-{#                            Проверяем есть ли скидка на товар#}
-                            {% if product.discount %}
-                                <p><s>{{ product.price }}</s> $</p>
-                                <p><strong> {{ product.sell_price }} $</strong></p>
-                                <span class="badge bg-warning text-dark">Скидка {{ product.discount }} %</span>
-                            {% else  %}
-                                <p><strong>{{ product.price }} $</strong></p>
-                            {% endif %}
-                            <a href="#" class="btn add-to-cart">
-                                <img class="mx-1" src="{% static "deps/icons/cart-plus.svg" %}" alt="Catalog Icon"
-                                    width="32" height="32">
+        {% if not goods %}
+            <div>
+                <p class="card-text"><strong>Товары в данной категории временно закончились.</strong></p>
+            </div>
+        {% else %}
+            {% for product in goods %}
+                <!-- Карта товара -->
+                <div class="col-lg-4 col-md-6 p-4">
+                    <div class="card border-primary rounded custom-shadow">
+    {#                    Проверка, если нет изображения для какого-то товара#}
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% else  %}
+                            <img src="{% static 'deps/images/Not found image.png' %}" class="card-img-top" alt="...">
+                        {% endif %}
+                        <div class="card-body">
+    {#                        Дополнительный параметр для тега url - product.slug, чтобы переход был на нужный товар#}
+                            <a href="{% url 'catalog:product' product.slug %}">
+                                <p class="card-title">{{ product.name }}</p>
                             </a>
+                            <p class="card-text text-truncate">{{ product.description }}</p>
+    {#                        вызываем метод display_id для отображения id товара#}
+                            <p class="product_id">id: {{ product.display_id }}</p>
+                            <div class="d-flex justify-content-between">
+    {#                            Проверяем есть ли скидка на товар#}
+                                {% if product.discount %}
+                                    <p><s>{{ product.price }}</s> $</p>
+                                    <p><strong> {{ product.sell_price }} $</strong></p>
+                                    <span class="badge bg-warning text-dark">Скидка {{ product.discount }} %</span>
+                                {% else  %}
+                                    <p><strong>{{ product.price }} $</strong></p>
+                                {% endif %}
+                                <a href="#" class="btn add-to-cart">
+                                    <img class="mx-1" src="{% static "deps/icons/cart-plus.svg" %}" alt="Catalog Icon"
+                                        width="32" height="32">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
     <!-- Пагинация -->
     <nav aria-label="Page navigation example">

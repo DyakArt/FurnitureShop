@@ -4,9 +4,17 @@ from goods.models import Products
 
 
 # отображение каталога
-def catalog(request):
-    # получаем все товары из таблицы product
-    goods = Products.objects.all()
+def catalog(request, category_slug):
+    # делаем проверку на значение slug
+    if category_slug == 'all':
+        # получаем все товары из таблицы product
+        goods = Products.objects.all()
+    else:
+        # получаем товары только нужной категории, category - поле внешнего ключа на таблицу Categories
+        goods = Products.objects.filter(category__slug=category_slug)
+        # если после запроса не нашлось товаров в данной категории
+        if not goods.exists():
+            goods = False
 
     context = {
         'title': 'Home - Каталог',
