@@ -6,7 +6,9 @@ from goods.models import Products
 
 
 # отображение каталога
-def catalog(request, category_slug, page=1):
+def catalog(request, category_slug):
+    # получаем номер страницы из объекта request по ключу 'page', если ключа не будет, то открываем 1-ю страницу
+    page = request.GET.get('page', 1)
     # делаем проверку на значение slug
     if category_slug == 'all':
         # получаем все товары из таблицы product
@@ -25,7 +27,7 @@ def catalog(request, category_slug, page=1):
 
         # переменная для страницы, которая будет отображаться пользователю
         # в метод page передаем нужную страницу для отображения (1 - первая страница)
-        current_page = paginator.page(page)
+        current_page = paginator.page(int(page))
 
     context = {
         'title': 'Home - Каталог',
