@@ -9,6 +9,9 @@ from goods.models import Products
 def catalog(request, category_slug):
     # получаем номер страницы из объекта request по ключу 'page', если ключа не будет, то открываем 1-ю страницу
     page = request.GET.get('page', 1)
+    on_sale = request.GET.get('on_sale', None)
+    order_by = request.GET.get ('order_by', None)
+
     # делаем проверку на значение slug
     if category_slug == 'all':
         # получаем все товары из таблицы product
@@ -16,6 +19,13 @@ def catalog(request, category_slug):
     else:
         # получаем товары только нужной категории, category - поле внешнего ключа на таблицу Categories
         goods = Products.objects.filter(category__slug=category_slug)
+
+    if on_sale:
+        goods = goods.filter(discount__gt=0)
+
+    if order_by and order_by != 'default':
+        goods = goods.order_by(order_by)
+
     # если после запроса не нашлось товаров в данной категории
     if not goods.exists():
         current_page = False
