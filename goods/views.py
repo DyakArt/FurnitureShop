@@ -3,19 +3,24 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 # импортируем модель товаров
 from goods.models import Products
+# импортируем функцию поиска
+from goods.utils import q_search
 
 
 # отображение каталога
-def catalog(request, category_slug):
+def catalog(request, category_slug=None):
     # получаем номер страницы из объекта request по ключу 'page', если ключа не будет, то открываем 1-ю страницу
     page = request.GET.get('page', 1)
     on_sale = request.GET.get('on_sale', None)
     order_by = request.GET.get ('order_by', None)
+    query = request.GET.get ('q', None)
 
     # делаем проверку на значение slug
     if category_slug == 'all':
         # получаем все товары из таблицы product
         goods = Products.objects.all()
+    elif query:
+        goods = q_search(query)
     else:
         # получаем товары только нужной категории, category - поле внешнего ключа на таблицу Categories
         goods = Products.objects.filter(category__slug=category_slug)
