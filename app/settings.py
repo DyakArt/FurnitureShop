@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # подключаем полнотекстовый поиск django
+    'django.contrib.postgres',
+
     # приложение для дополнительной отладки django
     'debug_toolbar',
 
@@ -93,10 +96,16 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # подключение БД
+# NAME - имя БД
+# USER - имя пользователя; HOST - хост, на котором работает БД (IP-адрес); PORT - порт IP-адреса
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'home',
+        'USER': 'home',
+        'PASSWORD': 'home',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
