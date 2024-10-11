@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, SearchHeadline
 
 from goods.models import Products
 
@@ -15,7 +15,37 @@ def q_search(query):
     vector = SearchVector("name", "description")
     # передаем наш запрос из поля поиска
     query = SearchQuery(query)
-    return Products.objects.annotate(rank=SearchRank(vector, query)).order_by("-rank")
+    # возвращаем нужный queryset, а при помощи класса SearchRank, мы добавляем к каждому объекту поле rank,
+    # которое рассчитывает как сильно совпадает информация в товаре или в статье с введенным поисковым запросом,
+    # сортируем от более подходящего к менее подходящему
+    # добавляем фильтр для исключения товаров с нулевым рангом, чтобы отображались нужные товары (с рангом больше 0)
+    result = (
+        Products.objects.annotate(rank=SearchRank(vector, query))
+        .filter(rank__gt=0)
+        .order_by("-rank")
+    )
+
+    # делаем отдельный стиль для названия товара
+    # по названию товара ищем слова из запроса и выделяем нужным цветом с помощью тега span
+    result = result.annotate(
+        headline=SearchHeadline(
+            "name",
+            query,
+            start_sel='<span style="background-color: yellow;">',
+            stop_sel="</span>",
+        )
+    )
+    # делаем отдельный стиль для описания товара
+    result = result.annotate(
+        bodyline=SearchHeadline(
+            "description",
+            query,
+            start_sel='<span style="background-color: yellow;">',
+            stop_sel="</span>",
+        )
+    )
+    # возвращаем результат поиска
+    return result
 
     # # полнотекстовый поиск
     # # перебираем все слова в поиске, заносим в список только те, которые больше 2
