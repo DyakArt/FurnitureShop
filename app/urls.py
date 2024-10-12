@@ -32,7 +32,9 @@ urlpatterns = [
     # namespace - имя приложения, к которому относятся url-адреса, когда мы обращаемся к ним в html-шаблонах templates
     path('', include('main.urls', namespace='main')),
     # подключаем адреса для приложения goods (каталог товаров, товары)
-    path('catalog/', include('goods.urls', namespace='catalog'))
+    path('catalog/', include('goods.urls', namespace='catalog')),
+    # подключаем адреса для приложения users
+    path('user/', include('users.urls', namespace='user'))
 ]
 
 # при отладке (debug = true), будем подключать дополнительный инструмент для более детальной отладки

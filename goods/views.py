@@ -12,8 +12,8 @@ def catalog(request, category_slug=None):
     # получаем номер страницы из объекта request по ключу 'page', если ключа не будет, то открываем 1-ю страницу
     page = request.GET.get('page', 1)
     on_sale = request.GET.get('on_sale', None)
-    order_by = request.GET.get ('order_by', None)
-    query = request.GET.get ('q', None)
+    order_by = request.GET.get('order_by', None)
+    query = request.GET.get('q', None)
 
     # делаем проверку на значение slug
     if category_slug == 'all':

@@ -49,9 +49,11 @@ INSTALLED_APPS = [
     # приложение для дополнительной отладки django
     'debug_toolbar',
 
+    # статические страницы
     'main',
     # товары
     'goods',
+    'users',
 ]
 
 # Промежуточное ПО, которое отвечает за безопасность, сессии (автоматическую обработку cookies-файлов на ПК юзеров)...
@@ -72,11 +74,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'app.urls'
 
 # шаблонизатор для отрисовки html-страниц
-# DIRS - где дополнительно искать шаблоны
+# DIRS - где дополнительно искать шаблоны, указываем папку templates в корне
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
