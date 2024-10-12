@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse
+from django.shortcuts import redirect
 
-from users.forms import UserLoginForm
+from users.forms import UserLoginForm, UserRegistrationForm
 
 
 def login(request):
@@ -41,8 +42,22 @@ def login(request):
 
 
 def registration(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(data=request.POST)
+        # если форма валидна, то сохраняем данные из формы в БД и создаем нового пользователя
+        if form.is_valid():
+            form.save()
+            # получаем все атрибуты пользователя из формы
+            user = form.instance
+            # авторизуем пользователя через эти атрибуты
+            auth.login(request, user)
+            return HttpResponseRedirect(reverse('main:index'))
+    else:
+        form = UserRegistrationForm()
+
     context = {
-        'title': 'Home - Регистрация'
+        'title': 'Home - Регистрация',
+        'form': form
     }
     return render(request, 'users/registration.html', context)
 
@@ -55,4 +70,7 @@ def profile(request):
 
 
 def logout(request):
-    ...
+    # выходим из аккаунта
+    auth.logout(request)
+    # перенаправляем на главную страницу
+    return redirect(reverse('main:index'))
