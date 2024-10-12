@@ -1,3 +1,5 @@
 from django.contrib import admin
+from users.models import User
 
-# Register your models here.
+# регистрируем таблицу User в админ панели
+admin.site.register(User)

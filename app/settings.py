@@ -175,3 +175,6 @@ INTERNAL_IPS = [
 
 # автоинкремент (+1) id для каждой новой записи в БД в каждом приложении
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# указываем какую модель использовать вместо auth_user (нашу дополненную модель)
+AUTH_USER_MODEL = 'users.USER'
