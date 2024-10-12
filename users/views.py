@@ -30,6 +30,10 @@ def login(request):
                 auth.login(request, user)
                 # сообщаем об успешном входе пользователю
                 messages.success(request, f'{username}, Вы вошли в аккаунт')
+                # проверяем, если пользователь перешёл на страницу, в которой требуется сначала вход
+                # (так где декоратор login_required у представлений)
+                if request.POST.get('next', None):
+                    return HttpResponseRedirect(request.POST.get('next'))
                 # перенаправляем пользователя на главную страницу нашего сайта
                 # с помощью reverse (как это делается в шаблонах)
                 return HttpResponseRedirect(reverse('main:index'))

@@ -12,7 +12,11 @@
                     <form action="{% url 'user:login' %}" method="post">
 {#                        подключаем CSRF-токен (нужен для POST-запросов для защиты от подделки, чтобы убедиться, что данные отправил именно этот пользователь)#}
                         {% csrf_token %}
-
+{#                        если при заходе на эту страницу - это был редирект через декоратор login_required,#}
+{#                    там будет параметр next, передаем этот параметр в нашу форму POST через input hidden#}
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value={{request.GET.next}}>
+                    {% endif %}
                         <div class="mb-3">
                             <label for="id_username" class="form-label">Имя пользователя</label>
                             <input type="text" class="form-control"

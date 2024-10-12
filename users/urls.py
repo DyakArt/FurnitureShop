@@ -10,7 +10,7 @@ app_name = 'users'
 # третий аргумент - для тегов в html-документах, чтобы можно было обращаться к этим ссылкам по имени
 urlpatterns = [
     # путь для входа
-    path('login', views.login, name='login'),
+    path('login/', views.login, name='login'),
     # путь для страницы регистрации
     path('registration/', views.registration, name='registration'),
     # путь для страницы профиля

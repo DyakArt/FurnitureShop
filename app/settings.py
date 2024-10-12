@@ -178,3 +178,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # указываем какую модель использовать вместо auth_user (нашу дополненную модель)
 AUTH_USER_MODEL = 'users.USER'
+
+# путь к нашему представлению login (url-адрес), чтобы переопределить страницу "Not Found" у модуля
+# login_required на нашу страницу авторизации
+LOGIN_URL = '/user/login/'
