@@ -1,6 +1,6 @@
 from django import forms
-# форма django, которая проверяет всё для авторизации пользователя и создания пользователя
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+# формы django, одна, из которых проверяют всё для авторизации пользователя, другие для создания и изменения пользователя
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
 from users.models import User
 
@@ -53,3 +53,22 @@ class UserRegistrationForm(UserCreationForm):
                   'email',
                   'password1',
                   'password2')
+
+
+# создаем и описываем форму регистрации, чтобы применить валидацию к полям
+class ProfileForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = (
+            "image",
+            "first_name",
+            "last_name",
+            "username",
+            "email",)
+
+    image = forms.ImageField(required=False)
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    username = forms.CharField()
+    email = forms.CharField()
+
