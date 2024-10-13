@@ -101,3 +101,7 @@ def logout(request):
     auth.logout(request)
     # перенаправляем на главную страницу
     return redirect(reverse('main:index'))
+
+
+def users_cart(request):
+    return render(request, 'users/users_cart.html')

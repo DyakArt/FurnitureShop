@@ -1,22 +1,19 @@
 from django.urls import path
 
-from users import views
+from carts import views
 
 # необходимо указать имя приложения для пространства имён (namespace), чтобы не было ошибки
-app_name = 'users'
+app_name = 'carts'
 
 # первый аргумент в path - это адрес конкретной страницы,
 # второй аргумент - регистрация представления, которое будет закреплено за этим адресом
 # третий аргумент - для тегов в html-документах, чтобы можно было обращаться к этим ссылкам по имени
 urlpatterns = [
-    # путь для входа
-    path('login/', views.login, name='login'),
-    # путь для страницы регистрации
-    path('registration/', views.registration, name='registration'),
-    # путь для страницы профиля
-    path('profile/', views.profile, name='profile'),
-    # путь для выхода
-    path('logout/', views.logout, name='logout'),
-    # путь для корзины пользователя
-    path('users-cart/', views.users_cart, name='users_cart'),
+    # путь для добавления в корзину
+    path('cart_add/<int:product_id>/', views.cart_add, name='cart_add'),
+    # путь для изменения содержимого в корзине
+    path('cart_change/<int:product_id>/', views.cart_change, name='cart_change'),
+    # путь для удаления из корзины
+    path('cart_remove/<int:product_id>/', views.cart_remove, name='cart_remove'),
 ]
+
