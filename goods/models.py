@@ -72,6 +72,7 @@ class Products(models.Model):
     def sell_price(self):
         # если скидка != 0
         if self.discount:
+            # возвращает цену уже со скидкой
             return round(self.price - self.price*self.discount/100, 2)
-        # иначе, если скидки нет
+        # иначе, если скидки нет, то полная стоимость товара
         return self.price

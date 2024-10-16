@@ -30,11 +30,15 @@ def login(request):
                 auth.login(request, user)
                 # сообщаем об успешном входе пользователю
                 messages.success(request, f'{username}, Вы вошли в аккаунт')
-                # проверяем, если пользователь перешёл на страницу, в которой требуется сначала вход
-                # (так где декоратор login_required у представлений)
-                if request.POST.get('next', None):
+                # проверяем, если пользователь перешёл на страницу, где требуется сначала вход (параметр next в URL)
+                # (вход требуется у страниц, где декоратор login_required у представлений)
+                # в redirect_page будет значение параметра next, например, /user/profile/
+                redirect_page = request.POST.get('next, None')
+                # и если предыдущая страница, где требовался вход - это не logout (/user/logout/),
+                # то перенаправляем его на страницу, на которую он хотел после его авторизации
+                if redirect_page and redirect_page != reverse('user:logout'):
                     return HttpResponseRedirect(request.POST.get('next'))
-                # перенаправляем пользователя на главную страницу нашего сайта
+                # иначе перенаправляем пользователя на главную страницу нашего сайта
                 # с помощью reverse (как это делается в шаблонах)
                 return HttpResponseRedirect(reverse('main:index'))
     else:
@@ -81,6 +85,8 @@ def profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Профиль успешно обновлен')
+            # reverse ищет url с названием user:profile и возвращает уже адрес в виде /user/profile,
+            # затем происходит перенаправление на эту страницу
             return HttpResponseRedirect(reverse('user:profile'))
     else:
         # передаём объект пользователя, чтобы на странице профиля ему отображались его данные
